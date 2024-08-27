@@ -25,6 +25,7 @@ local mainIni = inicfg.load({
 	settings = {
 		silentmode				= false,
 		autosave				= true,
+		autoupdate				= true,
 		brain_updatetime		= 0.5,
 		brain_linescount		= 50,
 		animation_speed			= 0.10,
@@ -35,7 +36,7 @@ local mainIni = inicfg.load({
 local Walrider = {
 --prozori & local varijable
 	main_window 						= imgui.ImBool(false),
-	selectedLanguage					= imgui.ImInt(0) -- 0: Bosanski, 1: Engleski, 2: Slovenski, 3: Ruski, itd.
+	selectedLanguage					= imgui.ImInt(0), -- 0: Bosanski, 1: Engleski, 2: Slovenski, 3: Ruski, itd.
 	activeTab 							= "Player",
 	brainTexture						= nil,
 	pingValues							= {},
@@ -56,6 +57,7 @@ local Walrider = {
 	NoFall 								= imgui.ImBool(mainIni.host.nofall),
 	Silentmode 							= imgui.ImBool(mainIni.settings.silentmode),
 	AutoSave 							= imgui.ImBool(mainIni.settings.autosave),
+	AutoUpdate 							= imgui.ImBool(mainIni.settings.autoupdate),
 	Brain_UpdateTime 					= imgui.ImFloat(mainIni.settings.brain_updatetime),
 	Brain_LinesCount 					= imgui.ImInt(mainIni.settings.brain_linescount),
 	MorphStatus 						= imgui.ImBool(mainIni.visual.morphstatus),
@@ -77,7 +79,9 @@ local function sendChatMessage(message)
     end
 end
 
-local json_url = "https://gitlab.com/snippets/3740911/raw" 
+local jsn_upd = "https://gitlab.com/snippets/3741379/raw" --autoupdate
+
+local json_url = "https://gitlab.com/snippets/3740911/raw" -- users database
 
 local dlstatus = require('moonloader').download_status
 
@@ -262,6 +266,10 @@ function main()
     while not isSampAvailable() do
         wait(0)
     end
+
+	if Walrider.AutoUpdate.v then autoupdate(jsn_upd, tag, url_upd)
+	else sendChatMessage(currentLanguage.startup_autoupdate_message) end
+
 
 	ifont_height = (((pw == 1680 or pw == 1600 or pw == 1440) and 8) or ((pw == 1366 or pw == 1360 or pw == 1280 or pw == 1152 or pw == 1024) and 7) or ((pw == 800 or pw == 720 or pw == 640) and 6)) or 9
 	ifont = renderCreateFont("Verdana", ifont_height, 5)
@@ -641,6 +649,9 @@ apply_custom_style()
 			
 		elseif Walrider.activeTab == "Settings" then
 		 imgui.SliderFloat(u8'Animation Speed', Walrider.animationSpeed, 0.05, 0.30)
+		 imgui.Checkbox('Auto Update', Walrider.AutoUpdate)
+		 imgui.SameLine()
+		 if imgui.Button(currentLanguage.check_updates_button) then autoupdate(jsn_upd, tag, url_upd) end	
 		 imgui.Checkbox('Auto Save', Walrider.AutoSave)
 		 imgui.SameLine()
 			if imgui.Button(fa.ICON_SAVE..currentLanguage.AutoSave_button) then
@@ -797,6 +808,67 @@ function imgui.Hint(text)
     end
 end
 
+function autoupdate(json_url, prefix, url)
+	local dlstatus = require('moonloader').download_status
+	local json = getWorkingDirectory() .. '\\'..thisScript().name..'-version.json'
+	if doesFileExist(json) then os.remove(json) end
+	downloadUrlToFile(json_url, json, function(id, status, p1, p2)
+      	if status == dlstatus.STATUSEX_ENDDOWNLOAD then
+			if doesFileExist(json) then
+				local f = io.open(json, 'r')
+				if f then
+					local info = decodeJson(f:read('*a'))
+					updatelink = info.updateurl
+					updateversion = info.latest
+					f:close()
+					os.remove(json)
+					if updateversion == version_script then
+						sendChatMessage(currentLanguage.using_latest_version)
+						print(currentLanguage.current_version_print)
+						update = false
+					elseif updateversion < version_script then
+						sendChatMessage(currentLanguage.using_testing_version)
+						update = false
+					elseif updateversion > version_script then
+						lua_thread.create(function(prefix)
+							local dlstatus = require('moonloader').download_status
+							sendChatMessage(currentLanguage.available_update_chat)
+							wait(250)
+							downloadUrlToFile(updatelink, thisScript().path, function(id3, status1, p13, p23)
+								if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
+									log('Downloading')
+								elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
+									sendChatMessage(currentLanguage.success_update_chat..updateversion)
+									print(currentLanguage.success_update_print..updateversion)
+									goupdatestatus = true
+									lua_thread.create(function() wait(500) thisScript():reload() end)
+								end
+								if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
+									if goupdatestatus == nil then
+										sendChatMessage(currentLanguage.failed_update_chat)
+										update = false
+									end
+								end
+							end)
+						end, prefix)
+					else
+						sendChatMessage(currentLanguage.no_internet_update)
+						print(currentLanguage.no_internet_update)
+						update = false
+					end
+				end
+			else
+				sendChatMessage(currentLanguage.no_internet_update)
+				print(currentLanguage.no_internet_update)
+				update = false
+			end
+		end
+	end)
+	--while update ~= false do wait(100) end
+end
+
+
+
 function imgui.CenterText(text)
     local width = imgui.GetWindowWidth()
     local calc = imgui.CalcTextSize(text)
@@ -931,6 +1003,7 @@ function saveini()
 	settings = {
 		silentmode = Walrider.Silentmode.v,
 		autosave = Walrider.AutoSave.v,
+		autoupdate = Walrider.AutoUpdate.v,
 		brain_updatetime = Walrider.Brain_UpdateTime.v,
 		brain_linescount = Walrider.Brain_LinesCount.v,
 		animation_speed = Walrider.animationSpeed.v,
