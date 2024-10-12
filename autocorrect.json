@@ -1,0 +1,42 @@
+[
+    {
+        "misspelled": "hteo",
+        "correct": "htio"
+    },
+    {
+        "misspelled": "hteela",
+        "correct": "htela"
+    },
+    {
+        "misspelled": "nesto",
+        "correct": "nešto"
+    },
+    {
+        "misspelled": "neznam",
+        "correct": "ne znam"
+    },
+    {
+        "misspelled": "necu",
+        "correct": "neću"
+    },
+    {
+        "misspelled": "nevazno",
+        "correct": "nevažno"
+    },
+    {
+        "misspelled": "pozdravlje",
+        "correct": "pozdravljam"
+    },
+    {
+        "misspelled": "zdravoje",
+        "correct": "zdravo"
+    },
+    {
+        "misspelled": "dodji",
+        "correct": "dođi"
+    },
+    {
+        "misspelled": "cuo",
+        "correct": "čuo"
+    }
+]
