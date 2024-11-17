@@ -46,5 +46,11 @@
     "pincode": "5678",
     "expires": "2024-12-17",
     "isAdmin": "Yes"
+  },
+  {
+    "username": "cemesinaa",
+    "pincode": "5679",
+    "expires": "2024-12-17",
+    "isAdmin": "Yes"
   }
 ]
