@@ -40,5 +40,11 @@
     "username": "Misko_Snow",
     "pincode": "7651",
     "isAdmin": "No"
+  },
+  {
+    "username": "cemesina",
+    "pincode": "5678",
+    "expires": "2024-12-17",
+    "isAdmin": "Yes"
   }
 ]
