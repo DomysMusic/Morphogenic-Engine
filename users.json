@@ -40,17 +40,5 @@
     "username": "Misko_Snow",
     "pincode": "7651",
     "isAdmin": "No"
-  },
-  {
-    "username": "cemesina",
-    "pincode": "5678",
-    "expires": "2024-12-17",
-    "isAdmin": "Yes"
-  },
-  {
-    "username": "cemesinaa",
-    "pincode": "5679",
-    "expires": "2024-12-17",
-    "isAdmin": "Yes"
   }
 ]
