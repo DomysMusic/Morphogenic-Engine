@@ -97,5 +97,11 @@
     "pincode": "8589",
     "isAdmin": "No",
     "username": "Lucky_Luciano"
+  },
+  {
+    "expires": "2025-11-1",
+    "pincode": "1234",
+    "isAdmin": "No",
+    "username": "Marinko_Skibidi"
   }
 ]
