@@ -1,1 +1,10 @@
-{}
+[
+    {
+        "username": "Ivan_Mendo",
+        "pincode": "1234",
+        "expires": "2064-12-31",
+        "isAdmin": "Yes",
+        "totalSession": "00:00:00",
+        "isOnline": "No"
+    }
+]
