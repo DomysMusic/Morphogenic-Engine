@@ -1,1 +1,18 @@
-{"users":[{"totalSession":"00:00:00","expires":"2064-12-31","pincode":"9101","isAdmin":"No","isOnline":"No","username":"Ivan_Mendo"}]}
+[
+    {
+        "username": "Ivan_Mendo",
+        "pincode": "9101",
+        "expires": "2064-12-31",
+        "isAdmin": "Yes",
+        "totalSession": "15:00:00",
+        "isOnline": "No"
+    },
+    {
+        "username": "Micko_Spahic",
+        "pincode": "5678",
+        "expires": "2064-11-30",
+        "isAdmin": "Yes",
+        "totalSession": "02:15:30",
+        "isOnline": "Yes"
+    }
+]
