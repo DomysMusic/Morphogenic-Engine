@@ -1,18 +1,1 @@
-[
-    {
-        "username": "Ivan_Mendo",
-        "pincode": "9101",
-        "expires": "2064-12-31",
-        "isAdmin": "Yes",
-        "totalSession": "15:00:00",
-        "isOnline": "No"
-    },
-    {
-        "username": "Micko_Spahic",
-        "pincode": "5678",
-        "expires": "2064-11-30",
-        "isAdmin": "Yes",
-        "totalSession": "02:15:30",
-        "isOnline": "Yes"
-    }
-]
+[{"totalSession":"15:00:00","expires":"2064-12-31","pincode":"9101","isAdmin":"Yes","isOnline":"Yes","username":"Ivan_Mendo"},{"totalSession":"02:15:30","expires":"2064-11-30","pincode":"5678","isAdmin":"Yes","isOnline":"Yes","username":"Micko_Spahic"}]
